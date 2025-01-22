@@ -5,6 +5,7 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
+const logger = require('./config/logger');
 
 const app = express();
 const port = process.env.PORT || 3003;
@@ -37,10 +38,10 @@ mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => {
-  console.log('Conectado a MongoDB');
+  logger.info('Conectado a MongoDB');
   app.listen(port, () => {
-    console.log(`Servidor corriendo en http://localhost:${port}`);
+    logger.info(`Servidor corriendo en http://localhost:${port}`);
   });
 }).catch(err => {
-  console.error('Error al conectar a MongoDB', err);
+  logger.error('Error al conectar a MongoDB', err);
 });

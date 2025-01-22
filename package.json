@@ -10,9 +10,11 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.17.1",
-    "mongoose": "^5.12.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.5",
     "redis": "^3.1.2",
     "swagger-jsdoc": "^6.1.0",
-    "swagger-ui-express": "^4.1.6"
+    "swagger-ui-express": "^4.1.6",
+    "winston": "^3.17.0"
   }
 }

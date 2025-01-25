@@ -6,6 +6,9 @@ const userController = require('../controllers/userController');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const consumer = require('../kafka/consumer');
+const kafka = require('kafka-node');
+const userService = require('../services/userService');
+const producer = require('../kafka/producer');
 
 /**
  * @swagger
@@ -77,6 +80,18 @@ router.delete('/:id', async (req, res) => {
           console.error('Usuario no encontrado en la base de datos:', id);
           return res.status(404).json({ error: 'Usuario no encontrado' });
         }
+
+        // Producir un mensaje en Kafka
+        const message = JSON.stringify({ id });
+        console.log('Mensaje sin cifrar:', message);
+        const encryptedMessage = userService.encryptMessage(message);
+        producer.send([{ topic: 'user.delete', messages: JSON.stringify(encryptedMessage) }], (err, data) => {
+          if (err) {
+            console.error('Error al enviar mensaje a Kafka:', err);
+          } else {
+            console.log('Mensaje enviado a Kafka:', data);
+          }
+        });
 
         // Eliminar el usuario
         await User.findByIdAndDelete(objectId);

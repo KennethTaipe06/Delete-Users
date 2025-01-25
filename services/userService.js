@@ -23,8 +23,20 @@ const decryptMessage = (encryptedMessage) => {
   return decrypted.toString();
 };
 
+const encryptMessage = (message) => {
+  const iv = crypto.randomBytes(16);
+  const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(process.env.ENCRYPTION_KEY, 'hex'), iv);
+  let encrypted = cipher.update(message);
+  encrypted = Buffer.concat([encrypted, cipher.final()]);
+  return {
+    iv: iv.toString('hex'),
+    encryptedData: encrypted.toString('hex')
+  };
+};
+
 module.exports = {
   getAllUsers,
   createUser,
-  decryptMessage
+  decryptMessage,
+  encryptMessage
 };

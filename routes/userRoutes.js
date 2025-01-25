@@ -5,10 +5,10 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
-const consumer = require('../kafka/consumer');
+const consumer = require('../consumers/userCreatedConsumer');
 const kafka = require('kafka-node');
 const userService = require('../services/userService');
-const producer = require('../kafka/producer');
+const producer = require('../producers/producer');
 
 /**
  * @swagger

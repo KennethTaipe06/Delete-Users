@@ -18,9 +18,8 @@ consumer.on('message', async (message) => {
     console.log('Mensaje descifrado:', decryptedMessage);
 
     const userData = JSON.parse(decryptedMessage);
-    userData._id = new mongoose.Types.ObjectId(userData._id);
-    delete userData.id; // Eliminar el campo id duplicado
-    const user = new User(userData);
+    const userId = new mongoose.Types.ObjectId(userData._id);
+    const user = new User({ _id: userId });
     await user.save();
     console.log('Usuario insertado en la base de datos:', user);
   } catch (error) {
